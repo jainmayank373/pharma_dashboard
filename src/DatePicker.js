@@ -18,18 +18,10 @@ class PickDate extends React.Component {
     return (
       <DatePicker
         selected={this.state.startDate}
-        minDate={new Date()}
-        maxDate={addDays(this.state.startDate)}
         onChange={this.handleChange}
       />
     );
   }
-}
-
-function addDays(date) {
-  const newDate = date;
-  console.log(newDate, 'max date');
-  return newDate;
 }
 
 export default PickDate;
