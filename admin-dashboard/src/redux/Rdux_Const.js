@@ -1,0 +1,37 @@
+const  ACTIONS = {
+    LOAD_PARTNER :"LOAD_PARTNER",
+    LOADING_PARTNER:"LOADING_PARTNER",
+    LOADING_UNVERIFIED_PARTNER:"LOADING_UNVERIFIED_PARTNER",
+    DIALOG_OPEN:"DIALOG_OPEN",
+    DIALOG_CLOSE:"DIALOG_CLOSE",
+    DROPDOWN_OPEN:"DROPDOWN_OPEN",
+    DROPDOWN_CLOSE:"DROPDOWN_CLOSE",
+    VERIFYING_PARTNER:"VERIFYING_PARTNER",
+    VERIFIED_PARTNER:"VERIFIED_PARTNER",
+    LOADING_HARMONIZED :"LOADING_HARMONIZED",
+    LOADED_HARMONIZED:"LOADED_HARMONIZED",
+    LOADED_UNHARMONIZED:"LOADING_UNHARMONIZED",
+    LOADING_UNHARMONIZED:"LOADED_UNHARMONIZED",
+    DECLINE_REQUEST:"DECLINE_REQUEST",
+    LOADED_IMAGE:"LOADED_IMAGE",
+    POPULATING_FORM:"POPULATING_FORM",
+    FETCHING_SUGGESTION:"FETCHING_SUGGESTION",
+    UNPOPULATING_FORM:"UNPOPULATING_FORM"
+}
+
+export default ACTIONS;
+/*
+mutation {
+  update_org(where: {org_id: {_eq: 10}}, _set: {is_verified: true}) {
+    returning {
+      is_verified
+    }
+  }
+  update_drug_license(where: {org_id: {_eq: 10}}, _set: {drug_license_no: "", license_type: "Wholesale"}) {
+    returning {
+      license_type
+      drug_license_no
+    }
+  }
+}
+*/
