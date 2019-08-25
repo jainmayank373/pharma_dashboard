@@ -52,29 +52,28 @@ class AutosuggestInput extends React.Component {
 
     constructor(props) {
         super(props);        
+        console.log("PROPS",props);
         this.state = {
-            value: this.props.rowValue,
+            value: '',
             suggestions: []
         };
     }
- 
-    componentWillReceiveProps(){
-        
-        this.setState({
-            value:this.props.type
-        })
-    }
+
+
     onChange = (event, { newValue }) => {
-        console.log(newValue);
+        console.log("PRINTIN VALUES",newValue,event.target.value);
+       
+        this.props.fun('newValue')(event);
         this.setState({
             value: newValue
         });
 
     }
 
-    getSuggestionValue = suggestion => { console.log(suggestion); return suggestion.composition };
+    getSuggestionValue = suggestion => { console.log("printing suggestion value",suggestion); return suggestion.composition };
 
     getSuggestions = value => {
+        console.log("GETING SUGGESTION",value)
         const inputValue = value.trim().toLowerCase();
         const inputLength = inputValue.length;
 
@@ -89,6 +88,12 @@ class AutosuggestInput extends React.Component {
         console.log(this.state.suggestions);
         if (value.length == 4) {
 
+            if(this.props.type == "manufacturer"){
+                    console.log("Manufacturer");
+            }
+            else if(this.props.type == "composition"){
+                    console.log("Composition");
+            }
             this.props.dispatch(fetchingSuggestion(value));
 
             this.setState({
@@ -109,10 +114,6 @@ class AutosuggestInput extends React.Component {
     render() {
 
         var { value } = this.state;
-        if(this.props.type ){
-                console.log(this.props.type);
-        }
-         
         const inputProps = {
             className: "suugestion_input",
             value,

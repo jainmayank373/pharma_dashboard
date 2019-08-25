@@ -10,9 +10,9 @@ const intiState = {
     update_partner: "",
     harmonized: [],
     unharmonized: [],
-    imgUrl:'',
-    populatedForm:null,
-    suggestions:[]
+    imgUrl: '',
+    populatedForm: null,
+    suggestions: []
 }
 
 
@@ -81,24 +81,28 @@ function AppReducers(state = intiState, action) {
 
         case ACTIONS.LOADED_IMAGE:
             console.log("Image loaded");
-            return Object.assign({},state,{
-                imgUrl:action.payload.url
+            return Object.assign({}, state, {
+                imgUrl: action.payload.url
             });
         case ACTIONS.POPULATING_FORM:
             console.log("POPULATING FORM");
-            return Object.assign({},state,{
-                populatedForm:action.payload
+            return Object.assign({}, state, {
+                populatedForm: action.payload
             })
         case ACTIONS.FETCHING_SUGGESTION:
-            console.log("FETCHING Suggestion",action.payload);
-            return Object.assign({},state,{
-                suggestions:action.payload.data.med_master_list
+            console.log("FETCHING Suggestion", action.payload);
+            return Object.assign({}, state, {
+                suggestions: action.payload.data.med_master_list
             })
         case ACTIONS.UNPOPULATING_FORM:
             console.log("Unpopulating form");
-            return Object.assign({},state,{
-                populatedForm:action.payload
+            return Object.assign({}, state, {
+                populatedForm: action.payload
             })
+        case ACTIONS.ADDING_MEDICINES:
+            console.log("Adding medicines");
+            return state;
+
         default:
             console.log("un handle actions", state);
             return state;

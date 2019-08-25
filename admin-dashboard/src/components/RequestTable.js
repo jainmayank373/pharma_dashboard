@@ -4,7 +4,7 @@ import MaterialTable from 'material-table';
 import Select from 'react-dropdown-select'
 import { Fab, Icon, Button, withStyles, CircularProgress, Paper, InputLabel, InputBase, FormControl } from '@material-ui/core';
 import '../style/table.css';
-import { load_partner, LoadingPartnerInfo, loadingUnHarmonized, onDecline, populatingForm,unPopulatingForm } from '../redux/action_creators/Partner_info_Load.js';
+import { load_partner, LoadingPartnerInfo, loadingUnHarmonized, onDecline, populatingForm, unPopulatingForm } from '../redux/action_creators/Partner_info_Load.js';
 import AutosuggestInput from "./AutosuggestInput";
 
 
@@ -341,19 +341,30 @@ class RequestTable extends React.Component {
         this.state = {
             brand_name: '',
             manufacturer: '',
-            hsn_code: ''
+            hsn_code: '',
+            medicine_form:[{
+                name:''
+            }],
+            newValue:''
         }
+        this.onRowClick = this.onRowClick.bind(this);
         console.log(props);
     }
 
     onInputChange = (type) => (event) => {
-        console.log(type,event.target.value);
-        this.setState({...this.state,[type]:event.target.value})
+        console.log("prenting value",type, event.target.value);
+        this.setState({ ...this.state, [type]: event.target.value })
     }
+
     onRowClick = (data) => {
         console.log(data);
-        this.setState({...this.state,['manufacturer']:data.manufacturer})
-        this.props.dispatch(populatingForm(data));
+        var arr = [{
+            name:data.med_form
+        }]
+        this.setState({medicine_form:arr })        
+        this.setState({brand_name:data.brand_name})
+
+        // this.props.dispatch(populatingForm(data));
     }
     columns = [
         { title: "Vendor", field: "inventories[0].org.org_name" },
@@ -368,17 +379,31 @@ class RequestTable extends React.Component {
         console.log("decline request");
         console.log("ROWDAT DECLINE", rowData);
         this.props.dispatch(onDecline(rowData.unhar_med_id));
-        
+
 
     }
+
     selectChange = (value) => {
-        console.log(value);
+        if (value.length != 0) {
+            console.log(value[0]);
+            this.setState({
+                medicine_form: value
+            })
+        }
+        else{
+            console.log(value)
+        }
 
     }
-
+onBrandChange = (event)=>{
+        console.log(event.target.value);
+        this.setState({
+            brand_name:event.target.value
+        })
+}
     onAddMedicines = (value) => {
 
-        console.log(value,this.stat);
+        console.log(value, this.state);
     }
 
     render() {
@@ -411,19 +436,19 @@ class RequestTable extends React.Component {
                             <InputLabel shrink htmlFor="bootstrap-input">
                                 MEDICINE FORM
                             </InputLabel>
-                            <Select className="select_input" labelField="name" valueField="name" options={languages} clearable={true} clearOnBlur={true} onChange={this.selectChange} />
+                            <Select className="select_input" values={this.state.medicine_form} labelField="name" valueField="name" options={languages} clearable={true} clearOnBlur={true} onChange={(value) => { this.selectChange(value) }} />
                         </FormControl>
                         <FormControl>
                             <InputLabel shrink htmlFor="bootstrap-input">
                                 MANUFACTURER'S NAME
                             </InputLabel>
-                            <AutosuggestInput type={this.props.populatedForm != null ? this.props.populatedForm.manufacturer:''} rowValue={this.state.manufacturer} />
+                            <AutosuggestInput fun={this.onInputChange} type={"manufacturer"} rowValue={this.state.manufacturer} />
                         </FormControl>
                         <FormControl>
                             <InputLabel shrink htmlFor="bootstrap-input">
                                 BRAND NAME
                             </InputLabel>
-                            <BootstrapInput value={this.props.populatedForm != null ? this.props.populatedForm.brand_name : ''} id="bootstrap-input4" />
+                            <BootstrapInput value={this.state.brand_name} onChange={this.onInputChange('brand_name')} id="bootstrap-input4" />
                         </FormControl>
                         <FormControl>
                             <InputLabel shrink htmlFor="bootstrap-input">
@@ -435,7 +460,7 @@ class RequestTable extends React.Component {
                             <InputLabel shrink htmlFor="bootstrap-input">
                                 SALT COMPOSITION
                             </InputLabel>
-                            <AutosuggestInput type="MAYANK JAIN" rowValue="JAIN" />
+                            <AutosuggestInput type={"composition"} rowValue="JAIN" />
                         </FormControl>
                         <FormControl>
                             <InputLabel shrink htmlFor="bootstrap-input">

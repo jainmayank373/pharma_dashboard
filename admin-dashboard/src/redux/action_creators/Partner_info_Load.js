@@ -120,6 +120,12 @@ export const on_fetching_suggestion = (data) => {
         payload: data
     }
 }
+export const adding_medicines = (data) => {
+    return {
+        type: ACTIONS.ADDING_MEDICINES,
+        payload: data
+    }
+}
 
 export const LoadingPartnerInfo = (actionType) => {
 
@@ -273,6 +279,29 @@ export const fetchingSuggestion = (value) => {
                 "Content-type": "application/json"
             },
             body: JSON.stringify({ "query": "{\n  med_master_list(where: {composition: {_ilike: \"%" + value + "%\"}}) {\n    composition\n    brand_name\n  }\n}\n", "variables": null })
+        })
+            .then((res) => res.json())
+            .then(res => { console.log("fetching suggestion", res); return res })
+            .then(res => store.dispatch(on_fetching_suggestion(res)))
+            .catch((err) => console.log(err))
+    }
+
+
+}
+
+
+export const onAddingMedicine = (data) => {
+    
+    console.log(data);
+
+    return () => {
+        fetch("http://ec2-34-227-149-17.compute-1.amazonaws.com:8080/v1/graphql", {
+
+            method: "POST",
+            headers: {
+                "Content-type": "application/json"
+            },
+            body: JSON.stringify({"query":"mutation {\n  insert_med_master_list(objects: {brand_name: \"mayank\", composition: \"\", hsn_code: 1234, med_form: \"\", primary_pack: 10, manufacturer: \"\"}) {\n    returning {\n      brand_name\n      composition\n      med_id\n    }\n  }\n}\n","variables":null})
         })
             .then((res) => res.json())
             .then(res => { console.log("fetching suggestion", res); return res })
